@@ -133,7 +133,7 @@ function Header() {
         <button type="button" onClick={() => navigateTo('capabilities')}>Capabilities</button>
         <button type="button" onClick={() => navigateTo('kind-words')}>Kind Words</button>
         <a href={resume} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>Resume</a>
-        <a href="/redesign" onClick={() => setOpen(false)}>R-Ed-esigned</a>
+        {/* <a href="/redesign" onClick={() => setOpen(false)}>R-Ed-esigned</a> */}
         <a className="nav-contact" href={emailLink} onClick={() => setOpen(false)}>Contact</a>
       </nav>
     </header>
