@@ -132,7 +132,8 @@ function Header() {
         <button type="button" onClick={() => navigateTo('career')}>Career Path</button>
         <button type="button" onClick={() => navigateTo('capabilities')}>Capabilities</button>
         <button type="button" onClick={() => navigateTo('kind-words')}>Kind Words</button>
-        <a href={resume} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>Read More</a>
+        <a href={resume} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>Resume</a>
+        <a href="/redesign" onClick={() => setOpen(false)}>R-Ed-esigned</a>
         <a className="nav-contact" href={emailLink} onClick={() => setOpen(false)}>Contact</a>
       </nav>
     </header>
@@ -457,6 +458,14 @@ function Footer() {
 }
 
 export default function App() {
+  useEffect(() => {
+    const target = window.sessionStorage.getItem('classicScrollTarget')
+    if (!target) return
+
+    window.sessionStorage.removeItem('classicScrollTarget')
+    requestAnimationFrame(() => scrollToSection(target))
+  }, [])
+
   return (
     <>
       <Header />
