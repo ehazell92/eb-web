@@ -116,8 +116,9 @@
 .rd-tools .rd-section-title { width: 430px; flex: 0 0 auto; }
 .rd-tools .rd-section-title::before { content: ""; position: absolute; right: 0; top: -6px; width: 1px; height: 58px; background: var(--rd-teal); }
 .rd-tool-row { flex: 1; display: flex; align-items: center; justify-content: space-evenly; padding-left: 50px; }
-.rd-tool-row img { width: 55px; height: 55px; object-fit: contain; transition: transform 180ms ease; }
-.rd-tool-row img:hover { transform: translateY(-7px) scale(1.08); }
+.rd-tool-row img { width: 55px; height: 55px; object-fit: contain; transition: transform 220ms ease, filter 220ms ease; }
+.rd-tool-row img:hover { transform: translateY(-7px) rotate(-2deg) scale(1.06); filter: drop-shadow(0 8px 7px rgba(0, 0, 0, 0.18)); }
+.rd-tool-row img:nth-child(even):hover { transform: translateY(-7px) rotate(2deg) scale(1.06); }
 
 .rd-kind { padding: 38px 0 34px; border-bottom: 1px solid #d8dfe1; background: #f3f7f8; }
 .rd-kind-heading { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 28px; }
