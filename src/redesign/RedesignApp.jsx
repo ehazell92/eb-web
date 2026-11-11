@@ -41,7 +41,7 @@ import shopify from '../assets/tools/shopify__LR.avif'
 import './redesign.css'
 
 export const emailLink = 'mailto:ErykaEBagwell@gmail.com?subject=Let%27s%20Connect'
-const resume = '/resume/ErykBagwell_Resume.pdf'
+const resume = '/resume/ErykaBagwell_Resume.pdf'
 
 const toolLogos = [
   [creativeCloud, 'Adobe Creative Cloud'], [indesign, 'Adobe InDesign'],
