@@ -70,7 +70,6 @@ export const printPortfolio = [
     title: 'Design, Print & Production',
     description: 'Conceptualized and developed a new menu for a local Ship & Sip company.',
   },
-  { file: 'testImage', alt: '', title: 'This is a test!', description: 'Testing image add a build' },
 ]
 
 export const digitalPortfolio = [
