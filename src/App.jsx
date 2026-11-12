@@ -1,31 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-import logo from './assets/logo/EBC_Logo.avif'
+import navbarLogo from './assets/logo/EBC_LogoDeboss_navbar.png'
+import popupLogo from './assets/logo/EBC_LogoDeboss_popup.png'
+import facebookIcon from './assets/social/EB_SocialMedia_FBIcon_ForWix_2023.png'
+import instagramIcon from './assets/social/EB_SocialMedia_InstaIcons_ForWix_2023.png'
 import movingBackground from './assets/backgrounds/moving_background.mp4'
 import welcomeTitle from './assets/header-carousel/WelcomeTxt.avif'
 import servicesTitle from './assets/header-carousel/ServicesTxt.avif'
 import contactTitle from './assets/header-carousel/ContactTxt.avif'
 import kindWordsTitle from './assets/header-carousel/Kind_wordsTxt.avif'
-
-import soulfulBanner from './assets/print_packaging/Soulful_banner.avif'
-import mountainSideFarms from './assets/print_packaging/MountainSideFarms.avif'
-import zen from './assets/print_packaging/Zen.avif'
-import welcomeAboard from './assets/print_packaging/WelcomeAboard.avif'
-import outlets from './assets/print_packaging/TheOutlets.avif'
-import hilltop from './assets/print_packaging/HilltopByTheBay.avif'
-import magazines from './assets/print_packaging/Magazines.avif'
-import soulFloraPrint from './assets/print_packaging/SoulFlora.avif'
-import lowKeyIt from './assets/print_packaging/LowKeyIt.avif'
-
-import platypodWeb from './assets/digital_portfolio/platypod_web.avif'
-import yoga from './assets/digital_portfolio/Yoga.avif'
-import platypodEco from './assets/digital_portfolio/Platypod_eco.avif'
-import platypod from './assets/digital_portfolio/Platypod.avif'
-import soulFloraMobile from './assets/digital_portfolio/SoulFlora_mobile.avif'
-import townwall from './assets/digital_portfolio/townwall.avif'
-import doorBuster from './assets/digital_portfolio/DoorBuster.avif'
-import soulFloraGreen from './assets/digital_portfolio/soulflora_green.avif'
-import fairyTaleForest from './assets/digital_portfolio/FairyTaleForest.avif'
+import { resolvedDigitalPortfolio as digitalWork, resolvedPrintPortfolio as printWork } from './portfolio-loader.js'
 
 import creativeCloud from './assets/tools/Logos_Silo__CC.avif'
 import indesign from './assets/tools/6545dd_808818ddf40846ecb3478f99ffffe978~mv2.avif'
@@ -49,30 +33,6 @@ const resume = '/resume/ErykaBagwell_Resume.pdf'
 function scrollToSection(id) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
-
-const printWork = [
-  { image: mountainSideFarms, alt: 'Mountain Side Farms milk packaging', title: 'Packaging, Print & Production', body: 'A full packaging overhaul for a new ultra-pasteurized milk product offered by Mountainside Farms.' },
-  { image: hilltop, alt: 'Hilltop by the Bay construction barricade', title: 'Design, Print & Production', body: 'A barricade large-format design, print and production project for a mall under construction. Managed art direction.' },
-  { image: zen, alt: 'Zen product packaging and sell sheet', title: 'Packaging, Print & Photograph', body: 'Designed a new product BiSleeve in dielines for print and developed a branded sell sheet.' },
-  { image: soulfulBanner, alt: 'Soul Flora dispensary billboard', title: 'Design, Print & Production', body: 'A new large-format printed billboard for a local dispensary.' },
-  { image: outlets, alt: 'The Outlets printed media kit', title: 'Design, Print & Art Direction', body: 'A printed media kit for B2B.' },
-  { image: lowKeyIt, alt: 'Low Key Tea branding and sell sheet', title: 'Branding, Print & Photograph', body: 'Developed branding for a new Low Key Tea product, applied the branding to packaging, and designed a printed sell sheet.' },
-  { image: magazines, alt: 'Magazine publication designs', title: 'Print & Art Direction', body: 'Art directed and designed two bi-monthly publications simultaneously from cover to cover.' },
-  { image: soulFloraPrint, alt: 'Soul Flora wearable merchandise', title: 'Design, Print & Production', body: 'Designed and refined wearable merchandise, then prepared the files for print.' },
-  { image: welcomeAboard, alt: 'Welcome Aboard menu design', title: 'Design, Print & Production', body: 'Conceptualized and developed a new menu for a local Ship & Sip company.' },
-]
-
-const digitalWork = [
-  { image: doorBuster, alt: 'DoorBuster seasonal social campaigns', title: 'Branding & Social Media', body: 'Created expanded branding for various holiday seasonal offerings and sales and applied it to social media marketing.' },
-  { image: platypod, alt: 'Platypod photography contest campaign', title: 'Branding & Marketing Email', body: 'Created branding for a custom photography contest showcasing food and beverage shots, plus an email and web page supporting the contest.' },
-  { image: soulFloraMobile, alt: 'Soul Flora mobile social media graphics', title: 'Social Media', body: 'Designed various social media campaign graphics with tight turnarounds for custom educational events.' },
-  { image: yoga, alt: 'Yoga digital marketing campaign', title: 'Digital Marketing', body: 'Designed digital marketing materials including home-page graphics, social media, email blasts, a TV banner and kiosk creative.' },
-  { image: fairyTaleForest, alt: 'Fairy Tale Forest digital advertising', title: 'Digital Advertising & Merch', body: 'Developed a branded insignia for a local entertainment park and applied the branding to digital and print advertising.' },
-  { image: platypodEco, alt: 'Platypod website creative direction', title: 'Website & Creative Direction', body: 'Developed branding for a new website, curated a custom layout, and led creative direction for the development team.' },
-  { image: platypodWeb, alt: 'Platypod email newsletter', title: 'Email Newsletter', body: 'Designed and developed a custom email newsletter that was updated and deployed monthly.' },
-  { image: soulFloraGreen, alt: 'Soul Flora branded event marketing', title: 'Branded Event Digital Marketing', body: 'Curated custom educational event branding and developed a range of digital marketing assets supporting event attendance.' },
-  { image: townwall, alt: 'Townwall branding and website', title: 'Branding & Website Design', body: 'Branded, designed and developed a custom website supporting signups and on-screen participants.' },
-]
 
 const tools = [
   [creativeCloud, 'Adobe Creative Cloud'], [indesign, 'Adobe InDesign'],
@@ -107,36 +67,59 @@ const testimonials = [
 ]
 
 function Header() {
-  const [open, setOpen] = useState(false)
+  const [logoOpen, setLogoOpen] = useState(false)
+  const brandRef = useRef(null)
+  const closeRef = useRef(null)
+
+  const closeLogo = () => {
+    setLogoOpen(false)
+    requestAnimationFrame(() => brandRef.current?.focus())
+  }
 
   useEffect(() => {
-    document.body.classList.toggle('menu-open', open)
-    return () => document.body.classList.remove('menu-open')
-  }, [open])
+    document.body.classList.toggle('logo-modal-open', logoOpen)
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') closeLogo()
+    }
+
+    if (logoOpen) {
+      window.addEventListener('keydown', handleKeyDown)
+      requestAnimationFrame(() => closeRef.current?.focus())
+    }
+
+    return () => {
+      document.body.classList.remove('logo-modal-open')
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [logoOpen])
 
   const navigateTo = (id) => {
-    setOpen(false)
     requestAnimationFrame(() => scrollToSection(id))
   }
 
   return (
-    <header className="site-header" id="top">
-      <button className="brand" type="button" onClick={() => navigateTo('top')} aria-label="Eryka Bagwell Creative home">
-        <img src={logo} alt="Eryka Bagwell Creative" />
-      </button>
-      <button className={`menu-button ${open ? 'is-open' : ''}`} type="button" onClick={() => setOpen(!open)} aria-expanded={open} aria-controls="site-menu">
-        <span>Menu</span><i /><i />
-      </button>
-      <nav id="site-menu" className={`site-menu ${open ? 'is-open' : ''}`} aria-label="Primary navigation">
-        <button type="button" onClick={() => navigateTo('portfolio')}>Portfolio</button>
-        <button type="button" onClick={() => navigateTo('career')}>Career Path</button>
-        <button type="button" onClick={() => navigateTo('capabilities')}>Capabilities</button>
-        <button type="button" onClick={() => navigateTo('kind-words')}>Kind Words</button>
-        <a href={resume} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>Resume</a>
-        {/* <a href="/redesign" onClick={() => setOpen(false)}>R-Ed-esigned</a> */}
-        <a className="nav-contact" href={emailLink} onClick={() => setOpen(false)}>Contact</a>
-      </nav>
-    </header>
+    <>
+      <header className="site-header" id="top">
+        <button className="brand" ref={brandRef} type="button" onClick={() => setLogoOpen(true)} aria-label="View Eryka Bagwell Creative logo">
+          <img src={navbarLogo} alt="Eryka Bagwell Creative" />
+        </button>
+        <nav id="site-menu" className="site-menu" aria-label="Primary navigation">
+          <button type="button" onClick={() => navigateTo('portfolio')}>Portfolio</button>
+          <button type="button" onClick={() => navigateTo('career')}>Career Path</button>
+          <button type="button" onClick={() => navigateTo('capabilities')}>Capabilities</button>
+          <button type="button" onClick={() => navigateTo('kind-words')}>Kind Words</button>
+          <a href={resume} target="_blank" rel="noreferrer">Resume</a>
+          <a className="nav-contact" href={emailLink}>Contact</a>
+        </nav>
+      </header>
+      {logoOpen && (
+        <div className="logo-modal" role="dialog" aria-modal="true" aria-label="Eryka Bagwell Creative logo" onMouseDown={(event) => event.target === event.currentTarget && closeLogo()}>
+          <button className="logo-modal-close" ref={closeRef} type="button" onClick={closeLogo} aria-label="Close logo">×</button>
+          <div className="logo-modal-content"><img src={popupLogo} alt="Eryka Bagwell Creative" /></div>
+        </div>
+      )}
+    </>
   )
 }
 
@@ -248,8 +231,8 @@ function Hero() {
       <div className={`carousel-slide phase-${transitionPhase}`} key={currentSlide} aria-live="polite">
         {slides[currentSlide]}
       </div>
-      <button className="carousel-arrow carousel-arrow-left" type="button" onClick={() => changeSlide(-1)} aria-label="Previous slide">←</button>
-      <button className="carousel-arrow carousel-arrow-right" type="button" onClick={() => changeSlide(1)} aria-label="Next slide">→</button>
+      <button className="carousel-arrow carousel-arrow-left" type="button" onClick={() => changeSlide(-1)} aria-label="Previous slide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7" /></svg></button>
+      <button className="carousel-arrow carousel-arrow-right" type="button" onClick={() => changeSlide(1)} aria-label="Next slide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg></button>
     </section>
   )
 }
@@ -286,9 +269,9 @@ function PortfolioGallery({ id, number, title, items }) {
         <h2 id={`${id}-title`}>{title}</h2>
       </div>
       <div className="gallery-grid">
-        {items.map(({ image, alt, title: itemTitle }, index) => (
-          <figure key={alt}>
-            <button className="gallery-image-button" type="button" onClick={() => setSelectedIndex(index)} aria-label={`Open ${itemTitle}`}>
+        {items.map(({ file, image, alt, title: itemTitle }, index) => (
+          <figure key={`${file}-${index}`}>
+            <button className="gallery-image-button" type="button" onClick={() => setSelectedIndex(index)} aria-label={`Open ${itemTitle || 'portfolio item'}`}>
               <img src={image} alt={alt} loading="lazy" />
             </button>
             <figcaption>{itemTitle}</figcaption>
@@ -447,12 +430,12 @@ function Footer() {
       </section>
       <div className="footer-row">
         <div className="social-links" aria-label="Social media">
-          <a href="https://www.facebook.com/ErykaBagwellCreative" target="_blank" rel="noreferrer" aria-label="Facebook">f</a>
-          <a href="https://www.instagram.com/erykabagwellcreative" target="_blank" rel="noreferrer" aria-label="Instagram">◎</a>
+          <a href="https://www.facebook.com/ErykaBagwellCreative" target="_blank" rel="noreferrer" aria-label="Facebook"><img src={facebookIcon} alt="" /></a>
+          <a href="https://www.instagram.com/erykabagwellcreative" target="_blank" rel="noreferrer" aria-label="Instagram"><img src={instagramIcon} alt="" /></a>
         </div>
         <p>© 2026 Eryka Bagwell Creative <span>||</span> 862.432.6989 <span>||</span> <a href={emailLink}>ErykaEBagwell@gmail.com</a></p>
       </div>
-      <button className={`back-to-top ${showBackToTop ? 'is-visible' : ''}`} type="button" onClick={() => scrollToSection('top')} aria-label="Back to top" aria-hidden={!showBackToTop} tabIndex={showBackToTop ? 0 : -1}>⌃</button>
+      <button className={`back-to-top ${showBackToTop ? 'is-visible' : ''}`} type="button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Back to top" aria-hidden={!showBackToTop} tabIndex={showBackToTop ? 0 : -1}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 14 7-7 7 7" /><path d="m5 20 7-7 7 7" /></svg></button>
     </footer>
   )
 }
